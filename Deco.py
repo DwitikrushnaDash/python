@@ -10,12 +10,8 @@ def func_decorator(func):
     return(inner)
 
 
-# func = func_decorator(func_to_be_decorated)
-# func()
-
-# ptn = re.compile(r'((25[0-5]|24[0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|24[0-9]|[01]?[0-9][0-9]?)')
-# x = ptn.search("IP address 10.20.40.30 abc 11.22.33.44")
-# print(x.group())
+func = func_decorator(func_to_be_decorated)
+func()
 
 def func_decorator_with_args(func):
     def inner(*args, **kwargs):
@@ -48,3 +44,7 @@ print(ret)
 ret1 = func_to_be_decorated_with_args(20, 12)
 print(ret1)
 
+
+ptn = re.compile(r'((25[0-5]|24[0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|24[0-9]|[01]?[0-9][0-9]?)')
+x = ptn.search("IP address 10.20.40.30 abc 11.22.33.44")
+print(x.group())
