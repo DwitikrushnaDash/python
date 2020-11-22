@@ -1,0 +1,184 @@
+import sys
+#Find length of maximum incresing subsequense
+"""
+    Example: [5, 8, 7, 1, 9] ===> 589 and 579
+    Subsequence is the sequence of items may not be contiguous - some element can be skipped
+
+    # https://www.youtube.com/watch?v=mouCn3CFpgg
+"""
+
+def len_max_subsequence(arr):
+    length = len(arr)
+    lis = [1] * length
+
+    for i in range(length):
+        for j in range(i):
+            if(arr[i] > arr[j]) and (lis[i] <= lis[j]):
+                lis[i] = 1 + lis[j]
+    print(lis)
+    return max(lis)
+
+arr = [5, 8, 7, 1, 9]
+ret = len_max_subsequence(arr)
+print(ret)
+
+"""
+    Largest sum contiguous sub array
+    arr = [-2, -3 4 -1 -2 1 5 -3]
+    result => 4 + -1 + -2 + 1 + 5 = 7 
+"""
+
+
+def largest_sum_subarray(arr):
+    cur_sum = 0
+    max_sum = -sys.maxsize - 1
+
+    for i in range(len(arr)):
+        cur_sum += arr[i]
+        if cur_sum < arr[i]:
+            cur_sum = arr[i]
+        if cur_sum > max_sum:
+            max_sum = cur_sum
+
+    return max_sum
+
+
+arr = [-2, -3, -4, -1, -20, -1, 5, -3]
+ret = largest_sum_subarray(arr)
+print(ret)
+
+"""
+    Best time to BUy and Sell to maximize the profit
+    arr = [7 1 5 3 6 4]
+    result => 1 - 5 , 3 - 6 => 7 
+    
+"""
+
+
+def maximize_profit(arr):
+    # cur_min = sys.maxsize
+    # cur_profit = 0
+    # max_profit = -sys.maxsize - 1
+    #
+    # for i in range(len(arr)):
+    #     if arr[i] < cur_min:
+    #         cur_min = arr[i]
+    #     cur_profit = arr[i] - cur_min
+    #     if cur_profit > max_profit:
+    #         max_profit = cur_profit
+    # return max_profit
+
+    max_profit = 0
+    for i in range(1, len(arr)):
+        if arr[i] > arr[i -1]:
+            max_profit += (arr[i] - arr[i-1])
+    return max_profit
+
+
+ret = maximize_profit([3, 1, 5, 6, 3, 4, 25 ])
+print(ret)
+
+"""
+    Count number of x if x+1 present in an array
+    arr = [1, 1, 2, 3, 4] 
+    res = 1 - 2, 1 - 2, 2 -3 3- 4 => 4
+"""
+
+
+def count_consecutive_numbers(arr):
+    dic = {}
+    for elmnt in arr:
+        dic[elmnt] = dic.get(elmnt, 0) + 1
+
+    # Search in array
+    count = 0
+    for elmnt in arr:
+        if elmnt + 1 in dic:
+            count += dic[elmnt+1]
+    return count
+
+
+ret = count_consecutive_numbers([1, 1, 2, 4])
+print(ret)
+
+""""
+    Find maximum length of subarray containing equal number of 0 and 1 in binary array
+    binary array all elements are either 0 | 1
+    arr = [1 1 1 0 0 1 0 1 1 1] => 1-6 having 3 zeo and 3 one
+    
+    Approach:
+    sum = [1 2 3 2 1 2 1 2 3 4] == when sum value exists earlier means there is no change of sum
+    so equal number of 1 and 0
+    if sum == 0, till this point equal number of 0 and 1 from beginning
+    Use a dict to keep sum=>index (index of sum element)
+    
+    Backtracking approach
+    https://www.youtube.com/watch?v=9ZyLjjk536U&list=PLEJXowNB4kPwCPVjDv6KsAsThtDOCQUok&index=13
+"""
+
+
+def max_subarray_equal_zero_one(arr):
+    dic = {}
+    sum = 0
+    length = len(arr)
+    max_window = -sys.maxsize-1
+
+    for i in range(length):
+        if arr[i] == 1:
+            sum += arr[i]
+        else:
+            sum += -1  # For 0 add  -1
+        if sum == 0:
+            max_window = max(max_window, i + 1)
+        elif sum in dic:
+            max_window = max(max_window, i - dic[sum])
+        else:
+            dic[sum] = i
+
+    return max_window
+
+
+arr = [1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1]
+ret = max_subarray_equal_zero_one(arr)
+print(ret)
+
+""""
+    Product of array except self
+    arr = [ 1 3 4 2 6]
+    output = [ 3*4*2*6 1*4*2*6 1*3*2*6 1*3*4*6 1*3*4*2]
+    
+    Approach:
+    tmp = [ 1 3 12 24 144]
+    rightproduct = from last to first traverse the arr and update tmp
+                   for last element product will be the product of element till n -1
+                   which is tmp[n -2]
+                   
+    
+    https://www.youtube.com/watch?v=gREVHiZjXeQ&list=PLEJXowNB4kPwCPVjDv6KsAsThtDOCQUok&index=15
+"""
+
+
+def product_except_self(arr):
+    length = len(arr)
+    left_product = 1
+    tmp = []
+
+    for i in range(length):
+        left_product *= arr[i]
+        tmp.append(left_product)
+
+    # Last elemnt will be product of all elements upto second last (inclusive)
+    tmp[length - 1] = tmp[length - 2]
+    right_product = 1
+    for i in range(length - 2, -1, -1):
+        right_product *= arr[i+1]
+        tmp[i] = tmp[i-1] * right_product
+
+    # First product element equal to product of all element except first
+    tmp[0] = right_product
+    print(right_product)
+    print(tmp)
+
+
+arr = [2, 3, 6, 5, 4]
+product_except_self(arr)
