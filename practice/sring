@@ -1,0 +1,22 @@
+from collections import defaultdict
+"""
+    Group anagrams
+    arr = ["eat", "tea", "tan", "ate", "bat", "nat"]
+    ["eat", "tea", "ate"]
+    ["tan", "nat"]
+    ["bat"]
+"""
+
+
+def group_anagrams(arr):
+    dic = defaultdict(list)
+    for word in arr:
+        word_key = ''.join(sorted(word))
+        dic[word_key].append(word)
+
+    for val in dic.values():
+        print(val)
+
+
+arr = ["eat", "tea", "tan", "ate", "bat", "nat"]
+group_anagrams(arr)
