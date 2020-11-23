@@ -182,3 +182,49 @@ def product_except_self(arr):
 
 arr = [2, 3, 6, 5, 4]
 product_except_self(arr)
+
+
+"""
+    Search an element in rotated sorted array
+    arr = [4 5 6 7 0 1 2 3] [5 6 7 0 1 2 3 4] [3 4 5 6 7 0 1 2]
+    
+    #Approach:
+    Get index of MID element =. 1 of both side of MID element is strictly increasing order
+    [4 5 6 7 0 1 2 3] - L=0 R=7 MID=(R+L)/2 => arr[3] = 7 =>Both side in increasing order
+    [5 6 7 0 1 2 3 4] - MID arr[3] = 0 => Right side in increasing order
+    [3 4 5 6 7 0 1 2] - MID arr[3] = 6 => Left side in increasing order
+    
+    -> Check the element if it falls in the side of increasing order 
+    -> Use Binary search
+    
+    https://www.youtube.com/watch?v=oTfPJKGEHcc&list=PLEJXowNB4kPwCPVjDv6KsAsThtDOCQUok&index=19
+"""
+
+
+def seach_sorted_rotated_array(arr, elemnt):
+
+    low = 0
+    high = len(arr) - 1
+
+    while low < high:
+        mid = low + (high - low) // 2
+        if arr[mid] == elemnt:
+            return True
+        # Left side in increasing order
+        elif arr[mid] > arr[0]:
+            if (elemnt >= arr[0]) and (elemnt < arr[mid]):
+                high = mid - 1
+            else:
+                low = mid + 1
+        # right side increasing order
+        else:
+            if (elemnt > arr[mid]) and (elemnt < arr[high]):
+                low = mid + 1
+            else:
+                high = mid - 1
+    return False
+
+
+arr = [7, 8, 0, 1, 2, 3, 4, 5, 6]
+
+print(seach_sorted_rotated_array(arr, 5))
