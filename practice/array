@@ -268,3 +268,41 @@ ret = remove_digit_get_smallest("372181", 2)
 # ret = remove_digit_get_smallest("372181", 3)
 # ret = remove_digit_get_smallest("123", 2)
 print(ret)
+
+""""
+    Find position of anagrams of str2 in str1
+    str1 = "abcdcbaefgbca"
+    str2 = "abc"
+    res = [0, 4, 10]
+    
+    Approach: Sliding window
+    
+    https://www.youtube.com/watch?v=_Rr0nbmClko
+"""
+
+
+def get_pos_of_all_anagrams(str1, str2):
+    map_str1 = {}
+    map_str2 = {}
+    result = []
+    k = len(str2)
+
+    for ch in str2:
+        map_str2[ch] = map_str2.get(ch, 0) + 1
+
+    for i in range(len(str1)):
+        map_str1[str1[i]] = map_str1.get(str1[i], 0) + 1
+        if i+1 >= len(str2):
+            if map_str1 == map_str2:
+                result.append(i+1-k)
+
+            map_str1[str1[i+1-k]] -= 1
+            if map_str1[str1[i+1-k]] == 0:
+                del (map_str1[str1[i + 1 - k]])
+    return result
+
+
+str1 = "abcdcbaefgbca"
+str2 = "abc"
+result = get_pos_of_all_anagrams(str1, str2)
+print(result)
