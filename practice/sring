@@ -88,3 +88,47 @@ def substring_shortest_with_all_characters(strng):
 strng = "ABCDAABCED"
 ret, min_window = substring_shortest_with_all_characters(strng)
 print(ret, min_window)
+
+
+""""
+    Check if a string can be a palindrome after rearranging
+    strng = "ABBAC"
+    ret -> True as strng can be rotated to ABCBA
+    strng = "ABAB"
+    ret -> True
+    
+    Approach:
+        If len(strng) % 2 != 0 ==> One Character can be odd
+        else No character can occur odd number of times
+"""
+
+
+def check_palindrome_after_rearrangement(strng):
+    length = len(strng)
+    map = {}
+    for ch in strng:
+        map[ch] = map.get(ch, 0) + 1
+
+    if length %2 != 0:
+        hasOdd = True
+    else:
+        hasOdd = False
+
+    for key in map:
+        if map[key] %2 !=0:
+            if hasOdd:
+                hasOdd = False
+            else:
+                return False
+    return True
+
+
+# strng = "ABCDBA"  #Even number - Not palindrome
+# strng = "ABAB"    # Even number - Palindrome
+# strng = "ABCAB"   # Odd Palindrome
+# strng = "ABCBE"   # Odd non Palindrome
+
+if check_palindrome_after_rearrangement("ABCAB"):
+    print("Palindrome")
+else:
+    print("Not Palindrome")
