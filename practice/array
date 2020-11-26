@@ -335,3 +335,36 @@ def subarray_max_product(arr):
 
 arr = [3, 4, -5, 2, 7]
 print(arr)
+
+
+""""
+    Minimum subarray with sum 
+    arr = [2, 4, 5, 8, 3, 11]
+    minsubarray = arr[5:5]
+    
+    Approach: Sliding window
+"""
+def min_subarray_sum_k(arr, k):
+    cur_sum = 0
+    min_window = len(arr)
+    start = 0
+
+    for end in range(len(arr)):
+        cur_sum += arr[end]
+
+        while cur_sum > k:
+            cur_sum -= arr[start]
+            start += 1
+
+        if cur_sum == k:
+            min_window = min(min_window, end-start+1)
+            final_start = start
+            final_end = end
+
+    return final_start, final_end
+
+
+arr = [2, 4, 5, 8, 3, 11]
+start, end = min_subarray_sum_k(arr, 11)
+print(start, end)
+
