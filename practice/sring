@@ -20,3 +20,71 @@ def group_anagrams(arr):
 
 arr = ["eat", "tea", "tan", "ate", "bat", "nat"]
 group_anagrams(arr)
+
+""""
+    Longest string with all distinct characters
+    strng = "abccedfsbasd"
+    res = "ceadfsb"
+    
+    Approach: Sliding Window
+"""
+
+
+def substr_longest_with_distinct_characters(strng):
+    max_len = 0
+    start = 0
+    map = {}
+
+    for end in range(len(strng)):
+        if strng[end] in map:
+            start = max(start, map[strng[end]] + 1)
+        map[strng[end]] = end
+
+        if max_len < end-start+1:
+            final_start = start
+            final_end = end
+            ret = strng[final_start:final_end + 1]
+
+        max_len = max(max_len, end-start+1)
+
+    return (ret)
+
+
+strng = "abcceadfsbax"
+ret = substr_longest_with_distinct_characters(strng)
+print(ret)
+
+""""
+    Shortest substring with all characters in a string
+    strng = "ABCDACEABCE"
+    res  -> "EABCD"
+"""
+
+
+def substring_shortest_with_all_characters(strng):
+    num_distinct = len(set(strng))
+    # print(num_distinct)
+    start = 0
+    count_distinct = 0
+    map = {}
+    min_window = len(strng)
+
+    for end in range(len(strng)):
+        map[strng[end]] = map.get(strng[end], 0) + 1
+
+        if map[strng[end]] == 1:
+            count_distinct += 1
+
+        if count_distinct == num_distinct:
+            while map[strng[start]] > 1:
+                map[strng[start]] -= 1
+                start += 1
+            min_window = min(min_window, end-start+1)
+            ret = strng[start:end+1]
+
+    return(ret, min_window)
+
+
+strng = "ABCDAABCED"
+ret, min_window = substring_shortest_with_all_characters(strng)
+print(ret, min_window)
