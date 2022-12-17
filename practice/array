@@ -364,3 +364,30 @@ arr = [2, 4, 5, 8, 3, 11]
 start, end = min_subarray_sum_k(arr, 11)
 print(start, end)
 
+# Factorial of large number
+def multiply(arr,y):
+    # print(arr)
+    carry = 0
+    for i in range(len(arr)-1,-1,-1):
+        tmp = arr[i] * y + carry
+        arr[i] = tmp % 10
+        carry = tmp // 10
+    while carry:
+        arr.insert(0, carry)
+        carry = carry // 10
+
+    print(arr)
+    return int(''.join([str(x) for x in arr]))
+
+
+def factorial_large_number(n):
+    if n < 2:
+        return 1
+    fact = 1
+    for i in range(2, n+1):
+        fact = multiply([int(x) for x in str(fact)], i)
+
+    return fact
+
+ret = factorial_large_number(4)
+print(ret)
