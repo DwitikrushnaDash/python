@@ -132,3 +132,43 @@ if check_palindrome_after_rearrangement("ABCAB"):
     print("Palindrome")
 else:
     print("Not Palindrome")
+    
+    
+#################################################### SECOND PRACTICE #######################################################
+
+#Isomorphic
+# If ch1 has been encountered before:
+# Return false if first occurrence of ch1 is mapped to a different character.
+# If ch1 is encountered for the first time, it has not been mapped yet:
+# Return false if ch2 is already mapped to some other
+# All checks passed.So insert in the map, and the set.
+
+
+def check_isomorphic(str1,str2):
+    if len(str1) != len(str2):
+        return False
+    tmp_map = {}
+    dist_char = []
+    for i in range(len(str1)):
+        ch1 = str1[i]
+        ch2 = str2[i]
+        # If ch1 has been encountered before:
+        if ch1 in tmp_map:
+        # Return false if first occurrence of ch1 is mapped to a different character.
+            if tmp_map[ch1] != ch2:
+                return False
+        else:
+            # If ch1 is encountered for the first time, it has not been mapped yet:
+            # Return false if ch2 is already mapped to some other
+            if ch2 in dist_char:
+                return False
+            # All checks passed.So insert in the map, and the set.
+            dist_char.append(ch2)
+            tmp_map[ch1] = ch2
+    return True
+
+# Test
+print(check_isomorphic("aab","xxy"))
+print(check_isomorphic("aab","xzy"))
+print(check_isomorphic("aabc","xxyy"))
+####>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
